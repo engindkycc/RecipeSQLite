@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">RecipeSQLite</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="foodNameHint">please enter the name of the dish </string>
+    <string name="foodMaterialHint">please add food ingredients</string>
+    <string name="foodSpecificationHint">please enter the recipe</string>
+    <string name="foodSave">Save</string>
+
+</resources>

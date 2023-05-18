@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SpecificationFragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="125dp"
+            android:layout_marginTop="29dp"
+            android:layout_marginBottom="32dp"
+            android:src="@drawable/choicephoto"
+            app:layout_constraintBottom_toTopOf="@+id/foodName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <EditText
+            android:id="@+id/foodName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="45dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:minHeight="48dp"
+            android:hint="@string/foodNameHint"
+            app:layout_constraintBottom_toTopOf="@+id/foodMaterial"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:ignore="DuplicateSpeakableTextCheck,VisualLintTextFieldSize"
+            android:autofillHints="" />
+
+        <EditText
+            android:id="@+id/foodMaterial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:inputType="textMultiLine"
+            android:minHeight="48dp"
+            android:hint="@string/foodMaterialHint"
+            app:layout_constraintBottom_toTopOf="@+id/foodSpecification"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/foodName"
+            android:autofillHints=""
+            tools:ignore="VisualLintTextFieldSize" />
+
+
+        <EditText
+            android:id="@+id/foodSpecification"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="@string/foodSpecificationHint"
+            android:inputType="textMultiLine"
+            android:minHeight="48dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonSave"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/foodMaterial"
+            android:autofillHints=""
+            tools:ignore="VisualLintTextFieldSize" />
+
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/foodSave"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/foodSpecification" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

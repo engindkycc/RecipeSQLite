@@ -1,21 +1,17 @@
 package com.engindkyc.recipesqlite
 
-import android.R
+//noinspection SuspiciousImport
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.engindkyc.recipesqlite.databinding.RecyclerRowBinding
 
 
-class ListRecyclerAdapter(val foodList:ArrayList<String> , val idList:ArrayList<Int> ) : RecyclerView.Adapter<ListRecyclerAdapter.FoodHolder>() {
+class ListRecyclerAdapter(private val foodList:ArrayList<String>, private val idList:ArrayList<Int> ) : RecyclerView.Adapter<ListRecyclerAdapter.FoodHolder>() {
 
 
-    class FoodHolder (val binding:RecyclerRowBinding) : RecyclerView.ViewHolder(binding.root) {
-
-
-    }
+    class FoodHolder (val binding:RecyclerRowBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodHolder {
         return FoodHolder(RecyclerRowBinding.inflate(LayoutInflater.from(parent.context),parent,false))
@@ -30,7 +26,6 @@ class ListRecyclerAdapter(val foodList:ArrayList<String> , val idList:ArrayList<
         holder.itemView.setOnClickListener {
             val action = ListFragmentDirections.actionListFragmentToSpecificationFragment("recyclerdangeldim", idList[position])
             Navigation.findNavController(it).navigate(action)
-
 
         }
 

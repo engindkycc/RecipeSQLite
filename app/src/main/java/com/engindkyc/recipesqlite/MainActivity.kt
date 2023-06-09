@@ -1,15 +1,15 @@
 package com.engindkyc.recipesqlite
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.Navigation
 import com.engindkyc.recipesqlite.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-        lateinit var binding : ActivityMainBinding
+        private lateinit var binding : ActivityMainBinding
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

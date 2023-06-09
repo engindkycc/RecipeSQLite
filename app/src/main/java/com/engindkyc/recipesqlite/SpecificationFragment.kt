@@ -9,13 +9,11 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.Dimension
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -25,10 +23,10 @@ import androidx.navigation.Navigation
 import com.engindkyc.recipesqlite.databinding.FragmentSpecificationBinding
 import java.io.ByteArrayOutputStream
 
-
+@Suppress("DEPRECATION")
 class SpecificationFragment : Fragment() {
-    var pickedPhoto : Uri? = null
-    var pickedBitMap : Bitmap? = null
+    private var pickedPhoto : Uri? = null
+    private var pickedBitMap : Bitmap? = null
     private var _binding: FragmentSpecificationBinding? = null
     private val binding get() = _binding!!
 
@@ -40,12 +38,10 @@ class SpecificationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        _binding = FragmentSpecificationBinding.inflate(inflater,container,false)
-        val view = binding.root
-        return  view
+    ): View {
 
+        _binding = FragmentSpecificationBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -54,19 +50,18 @@ class SpecificationFragment : Fragment() {
 
         binding.buttonSave.setOnClickListener {
             foodSave(it)
-
         }
 
         binding.imageView.setOnClickListener {
-            photoChoice(it)
+            photoChoice()
         }
 
-        arguments?.let{
+        arguments?.let{ it ->
 
-            var gelenBilgi = SpecificationFragmentArgs.fromBundle(it).info
+            val gelenBilgi = SpecificationFragmentArgs.fromBundle(it).info
 
-            if(gelenBilgi.equals("menudengeldim")){
-                //Yeni bir yemek eklemeye geldi
+            if(gelenBilgi == "menudengeldim"){
+
                 binding.foodName.setText("")
                 binding.foodMaterial.setText("")
                 binding.foodSpecification.setText("")
@@ -75,7 +70,7 @@ class SpecificationFragment : Fragment() {
                 val imageChooseBackground = BitmapFactory.decodeResource(context?.resources,R.drawable.choicephoto)
                 binding.imageView.setImageBitmap(imageChooseBackground)
             }else{
-                //daha önce oluşturulan yemeği görmeye geldi
+
                 binding.buttonSave.visibility = View.INVISIBLE
                 val chooseId = SpecificationFragmentArgs.fromBundle(it).id
 
@@ -107,17 +102,15 @@ class SpecificationFragment : Fragment() {
                     }catch (e:Exception){
                         e.printStackTrace()
 
-
                     }
-
 
                 }
 
             }
+
         }
 
     }
-
 
     private fun foodSave(view: View){
         //SQLite a kaydetme
@@ -131,7 +124,6 @@ class SpecificationFragment : Fragment() {
             val outputStream = ByteArrayOutputStream()
             smallBitmap.compress(Bitmap.CompressFormat.PNG,50,outputStream)
             val byteArray = outputStream.toByteArray()
-
 
             try {
 
@@ -148,8 +140,6 @@ class SpecificationFragment : Fragment() {
                     statement.execute()
                 }
 
-
-
             }catch (e: Exception){
 
                 e.printStackTrace()
@@ -161,20 +151,10 @@ class SpecificationFragment : Fragment() {
 
         }
 
-
-
     }
 
-
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    private fun photoChoice(view: View){
-
-        //Context Compat API lar arasındaki uyumsuzluğu gidermek için kullanılır.
-        //CheckSelfPermission ile izin kontrol edilir.
-        //context applicationContext verilir.
-        //Daha sonra hangi iznin kontrol edileceği yazılır.
-        //İzin verilmedi izin istememiz gerekiyor.
-        //izin zzaten verilmiş , tekrar istemeden galeriye git
+    private fun photoChoice() {
 
         activity?.let {
 
@@ -188,7 +168,9 @@ class SpecificationFragment : Fragment() {
                 startActivityForResult(galleryIntent,2)
 
             }
+
         }
+
     }
 
     @Deprecated("Deprecated in Java")
@@ -196,16 +178,20 @@ class SpecificationFragment : Fragment() {
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
+
     ) {
         if (requestCode == 1) {
-            if (grantResults.size > 0  && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 val galleryIntent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(galleryIntent,2)
+
             }
+
         }
+
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
-
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -222,10 +208,14 @@ class SpecificationFragment : Fragment() {
                             val source = ImageDecoder.createSource(it.contentResolver, pickedPhoto!!)
                             pickedBitMap = ImageDecoder.decodeBitmap(source)
                             binding.imageView.setImageBitmap(pickedBitMap)
+
                         }
+
                         pickedBitMap = MediaStore.Images.Media.getBitmap(it.contentResolver,pickedPhoto)
                         binding.imageView.setImageBitmap(pickedBitMap)
+
                     }
+
                 }
 
             }catch (e: Exception){
@@ -234,11 +224,12 @@ class SpecificationFragment : Fragment() {
             }
 
         }
+
         super.onActivityResult(requestCode, resultCode, data)
+
     }
 
-    //Create small bitmap
-    fun createSmallBitmap(userChooseBitmap: Bitmap , maxDimension: Int) : Bitmap{
+    private fun createSmallBitmap(userChooseBitmap: Bitmap , maxDimension: Int) : Bitmap{
 
         var width = userChooseBitmap.width
         var height = userChooseBitmap.height
@@ -246,13 +237,13 @@ class SpecificationFragment : Fragment() {
         val bitmapRatio : Double = width.toDouble() / height.toDouble()
 
         if(bitmapRatio > 1) {
-            //görsel yataydır.
+
             width = maxDimension
             val abridgedHeight = width / bitmapRatio
             height = abridgedHeight.toInt()
 
         }else{
-            //görsel dikeydir.
+
             height = maxDimension
             val abridgedWidth = height  * bitmapRatio
             width = abridgedWidth.toInt()
@@ -262,7 +253,6 @@ class SpecificationFragment : Fragment() {
         return  Bitmap.createScaledBitmap(userChooseBitmap,width,height,true)
 
     }
-
 
 }
 
